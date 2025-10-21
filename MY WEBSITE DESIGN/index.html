@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Professional Portfolio</title>
+    <!-- Load Tailwind CSS CDN for modern, responsive styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom scroll behavior for smooth transitions */
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Style the scrollbar for a cleaner look */
+        body::-webkit-scrollbar {
+            width: 8px;
+        }
+        /* Updated scrollbar thumb color to new Accent (Teal) */
+        body::-webkit-scrollbar-thumb {
+            background-color: #0D9488; /* Teal 600 */
+            border-radius: 4px;
+        }
+        body::-webkit-scrollbar-track {
+            background-color: #F9FAFB;
+        }
+        /* Apply the Inter font globally */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Keyframe for the subtle rotating element in the hero section */
+        @keyframes spin-slow {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .animate-spin-slow {
+            animation: spin-slow 60s linear infinite;
+        }
+
+        /* Keyframe for the initial scroll-reveal fade-in-up transition effect (0.8s) */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        /* Keyframe for the gentle, repeating "breathe" effect (5 seconds) */
+        @keyframes breathe {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.01); /* Very subtle scaling effect */
+            }
+        }
+
+        /* New class for the continuous 5-second animation */
+        .animate-breathe {
+            animation: breathe 5s ease-in-out infinite; /* 5 seconds repeat */
+        }
+
+        /* New initial state class for all elements that need to be hidden before animation */
+        .initial-hidden {
+            opacity: 0;
+        }
+    </style>
+    <script>
+        // Tailwind configuration for custom colors, using Teal as the main accent.
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        // NEW PROFESSIONAL PALETTE (TEAL)
+                        'primary-light': '#F9FAFB', // Very Soft Gray (Light Background)
+                        'secondary-light': '#FFFFFF', // Pure White for cards
+                        'accent': '#0D9488', // Deep Teal (Teal 600 - Main Theme Color)
+                        'dark-text': '#1F2937', // Dark Gray (Gray 800)
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<!-- Body now uses the new color variables and a deeper slate for dark mode -->
+<body class="bg-primary-light text-dark-text transition-colors duration-500 dark:bg-slate-950 dark:text-gray-100">
+
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-primary-light/95 backdrop-blur-md shadow-lg border-b border-gray-200 dark:bg-slate-950/90 dark:border-gray-700">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <!-- Name size is text-xl -->
+            <a href="#" class="text-xl font-extrabold tracking-wider text-accent transition duration-300 hover:scale-105 hover:opacity-80">Emuemukoro Festus</a>
+            <div class="flex items-center space-x-6">
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="font-medium hover:text-accent transition-colors">Home</a>
+                    <a href="#about" class="font-medium hover:text-accent transition-colors">About</a>
+                    <a href="#projects" class="font-medium hover:text-accent transition-colors">Projects</a>
+                    <a href="#contact" class="font-medium hover:text-accent transition-colors">Connect</a>
+                </div>
+
+                <!-- Dark Mode Toggle Button -->
+                <button id="dark-mode-toggle" class="p-2 rounded-full text-dark-text dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition duration-300">
+                    <!-- Sun Icon (Light Mode Active) -->
+                    <svg id="sun-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <!-- Moon Icon (Dark Mode Active) -->
+                    <svg id="moon-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/24 24/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="md:hidden text-dark-text dark:text-gray-200 hover:text-accent focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/24 24/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-secondary-light border-t border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+            <a href="#home" class="block py-3 px-4 text-sm font-medium hover:bg-gray-100 transition-colors dark:hover:bg-gray-700">Home</a>
+            <a href="#about" class="block py-3 px-4 text-sm font-medium hover:bg-gray-100 transition-colors dark:hover:bg-gray-700">About</a>
+            <a href="#projects" class="block py-3 px-4 text-sm font-medium hover:bg-gray-100 transition-colors dark:hover:bg-gray-700">Projects</a>
+            <a href="#contact" class="block py-3 px-4 text-sm font-medium hover:bg-gray-100 transition-colors dark:hover:bg-gray-700">Connect</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- 1. Hero Section - Visible on Load -->
+        <section id="home" class="min-h-screen flex items-center pt-20 pb-10">
+            <div class="grid md:grid-cols-2 gap-12 items-center w-full max-w-6xl mx-auto">
+                <!-- Text Content (Left/Top) -->
+                <div class="md:text-left text-center">
+                    <h1 class="text-2xl sm:text-4xl font-extrabold leading-tight text-gray-900 dark:text-white mb-6 animate-fade-in-up" style="animation-delay: 0.2s;">
+                        Hello, I'm <br>
+                        <span class="text-accent">Emuemukoro Festus</span>
+                    </h1>
+
+                    <h2 class="text-base sm:text-lg font-light text-gray-600 dark:text-gray-400 max-w-lg md:max-w-full mx-auto mb-8 animate-fade-in-up" style="animation-delay: 0.4s;">
+                        I am a Frontend Web Developer. I design and build clean, responsive, and high-performing websites. I focus on creating visually appealing and accessible interfaces that ensure a seamless user experience across all devices.
+                    </h2>
+                    <!-- Button color updated to Teal -->
+                    <a href="#contact" class="inline-block px-8 py-3 bg-accent text-white font-bold rounded-lg shadow-xl shadow-teal-400/40 hover:bg-teal-700 transition duration-300 transform hover:scale-105 animate-fade-in-up" style="animation-delay: 0.6s;">
+                        HIRE ME
+                    </a>
+                </div>
+
+                <!-- Visual Element (Right/Bottom) -->
+                <div class="relative flex justify-center md:justify-end animate-fade-in-up" style="animation-delay: 0.8s;">
+                    <!-- The parent div sets the size and the decorative rotating border -->
+                    <div class="relative w-72 h-72 md:w-96 md:h-96 rounded-full border-4 border-accent shadow-xl shadow-teal-400/40 flex items-center justify-center bg-white dark:bg-gray-800 overflow-hidden">
+                        <!-- 
+                            *** YOUR IMAGE GOES HERE ***
+                            Replace 'https://placehold.co/400x400/0D9488/FFFFFF?text=F+P' with your actual public image URL.
+                            The classes 'w-full h-full object-cover' ensure the image fills the circle neatly.
+                        -->
+                        <img src="images/FESTUS NEW.jpg" 
+                             alt="Professional portrait of Emuemukoro Festus"
+                             class="w-full h-full object-cover rounded-full"
+                             onerror="this.onerror=null; this.src='https://placehold.co/400x400/0D9488/FFFFFF?text=Image+Not+Found';"
+                        >
+
+                        <!-- The subtle rotating element -->
+                        <div class="absolute w-full h-full border-4 border-accent/30 rounded-full animate-spin-slow opacity-50"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. ABOUT ME Section - Scroll Reveal Target -->
+        <section id="about" class="py-24 border-t border-gray-200 dark:border-gray-700 scroll-reveal initial-hidden">
+            <div class="text-center mb-16">
+                <h3 class="text-2xl font-bold text-dark-text dark:text-white mb-2 fade-target initial-hidden" data-delay="0">ABOUT ME</h3>
+                <p class="text-accent text-sm fade-target initial-hidden" data-delay="100">A deep dive into my work and technical focus.</p>
+            </div>
+
+            <div class="max-w-5xl mx-auto grid md:grid-cols-[1fr_2fr] gap-12 items-center">
+
+                <!-- Column 1 (Left - Icons & Proficiencies) -->
+                <div class="space-y-4 md:order-1 order-2">
+                    <h4 class="text-xl font-semibold text-dark-text dark:text-white mb-4 text-center md:text-left fade-target initial-hidden" data-delay="200">Core Tech Proficiencies</h4>
+
+                    <!-- Icon Grid: Individual icon cards are fade-targets and will loop -->
+                    <div class="grid grid-cols-2 gap-4 max-w-xs mx-auto md:mx-0">
+
+                        <!-- Icon Card: HTML5 -->
+                        <div class="text-center group p-3 bg-secondary-light dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition duration-300 transform hover:scale-105 fade-target initial-hidden" data-delay="300">
+                            <!-- SVG for HTML5 -->
+                            <svg class="w-10 h-10 mx-auto mb-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill="#E44D26" d="M4 3L5.783 20.21l6.217 1.79 6.217-1.79L20 3H4z"/>
+                                <path fill="#F16529" d="M12 18.57l-4.223-1.157L7.54 13h-2.5l.39 3.9L12 18.57z"/>
+                                <path fill="#EBEBEB" d="M16.96 6.36l-.16 1.84L12 8.52v2.1l2.58-.72.18 1.87-2.76.77V14.7l3.87-1.07.31-3.23L16.96 6.36zM12 5.17l-.04.49H7.66l.24 2.51h3.18L10.8 11.1H8.5l.18 1.84h4.15l-.22 2.39-1.8 1.02-1.8-.93L9.61 14.7H6.9l.48 4.96L12 20.08l4.62-1.35.6-6.14.07-.61h-2.7L14.4 9.5l-.1-.95h-2.1L12 5.17z"/>
+                                <path fill="#FFFFFF" d="M12 14.7l-.02.49h-2.51l-.22 2.39L12 18.57l3.22-.84.28-2.88H12zM12 8.52h-2.1l-.1-.95H12l.18 1.84z"/>
+                            </svg>
+                            <p class="text-xs font-semibold text-dark-text dark:text-gray-200 mt-1">HTML5</p>
+                        </div>
+
+                        <!-- Icon Card: CSS3 -->
+                        <div class="text-center group p-3 bg-secondary-light dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition duration-300 transform hover:scale-105 fade-target initial-hidden" data-delay="400">
+                            <!-- SVG for CSS3 -->
+                            <svg class="w-10 h-10 mx-auto mb-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill="#1572B6" d="M4 3L5.783 20.21l6.217 1.79 6.217-1.79L20 3H4z"/>
+                                <path fill="#33A9DC" d="M12 18.57l-4.223-1.157L7.54 13h-2.5l.39 3.9L12 18.57z"/>
+                                <path fill="#EBEBEB" d="M16.96 6.36l-.16 1.84L12 8.52v2.1l2.58-.72.18 1.87-2.76.77V14.7l3.87-1.07.31-3.23L16.96 6.36zM12 5.17l-.04.49H7.66l.24 2.51h3.18L10.8 11.1H8.5l.18 1.84h4.15l-.22 2.39-1.8 1.02-1.8-.93L9.61 14.7H6.9l.48 4.96L12 20.08l4.62-1.35.6-6.14.07-.61h-2.7L14.4 9.5l-.1-.95h-2.1L12 5.17z"/>
+                                <path fill="#FFFFFF" d="M12 14.7l-.02.49h-2.51l-.22 2.39L12 18.57l3.22-.84.28-2.88H12zM12 8.52h-2.1l-.1-.95H12l.18 1.84z"/>
+                            </svg>
+                            <p class="text-xs font-semibold text-dark-text dark:text-gray-200 mt-1">CSS3</p>
+                        </div>
+
+                        <!-- Icon Card: JavaScript (ES6+) -->
+                        <div class="text-center group p-3 bg-secondary-light dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition duration-300 transform hover:scale-105 fade-target initial-hidden" data-delay="500">
+                            <!-- SVG for JavaScript -->
+                            <svg class="w-10 h-10 mx-auto mb-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill="#F7DF1E" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z"/>
+                                <path fill="#000000" d="M16 15.34c0 .34-.2.64-.5.78l-1.9 1.08c-.3.14-.6.14-.9.01L12 17.06c-.3-.14-.5-.44-.5-.78v-1.92h-.5c-.28 0-.5-.22-.5-.5v-1c0-.28.22-.5.5-.5h.5V12h-.5c-.28 0-.5.22-.5-.5v-1c0-.28.22-.5.5-.5h.5V9.06c0-.34.2-.64.5-.78l1.9-1.08c.3-.14.6-.14.9.01l1.9 1.08c.3.14.5.44.5.78v1.92h-.5c-.28 0-.5.22-.5.5v1c0 .28.22.5.5.5h.5v.5h-.5c-.28 0-.5.22-.5.5v1c0 .28.22.5.5.5h.5v.5zm-3.2-1.76c.14.08.19.2.19.34v.5h-.5v-.5c0-.14.05-.26.19-.34zM10 12.5h1.5v.5H10v-.5zm-.5-1.5v-1h.5v1h-.5z"/>
+                                <path fill="#323330" d="M13.4 15.75l-1.9 1.08c-.3.14-.6.14-.9.01L8.7 15.75c-.3-.14-.5-.44-.5-.78V9.03c0-.34.2-.64.5-.78l1.9-1.08c.3-.14.6-.14.9.01l1.9 1.08c.3.14.5.44.5.78v5.94c0 .34-.2.64-.5.78z"/>
+                            </svg>
+                            <p class="text-xs font-semibold text-dark-text dark:text-gray-200 mt-1">JavaScript</p>
+                        </div>
+
+                        <!-- Icon Card: Node.js -->
+                        <div class="text-center group p-3 bg-secondary-light dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition duration-300 transform hover:scale-105 fade-target initial-hidden" data-delay="600">
+                            <!-- SVG for Node.js -->
+                            <svg class="w-10 h-10 mx-auto mb-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill="#43853D" d="M12 2l5.196 3v6l-5.196 3-5.196-3V5L12 2z"/>
+                                <path fill="#84BD47" d="M12 3.5l4.33 2.5v5l-4.33 2.5-4.33-2.5v-5L12 3.5z"/>
+                                <text x="12" y="10" font-family="Arial, sans-serif" font-size="5" font-weight="bold" fill="#FFFFFF" text-anchor="middle">JS</text>
+                                <text x="12" y="16" font-family="Arial, sans-serif" font-size="3" fill="#43853D" text-anchor="middle">NODE</text>
+                            </svg>
+                            <p class="text-xs font-semibold text-dark-text dark:text-gray-200 mt-1">Node.js</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2 (Right - Professional Write-up) -->
+                <div class="text-gray-600 dark:text-gray-300 md:order-2 order-1 fade-target initial-hidden" data-delay="700">
+                    <h4 class="text-2xl font-bold text-dark-text dark:text-white mb-4">Crafting the Modern Web Experience</h4>
+
+                    <p class="mb-4">
+                        My expertise lies in foundational front-end technologies. I use **HTML5** to structure content semantically and leverage **CSS3** with modern frameworks like **Tailwind** for elegant, responsive styling that ensures visual consistency across all devices.
+                    </p>
+                    <p class="mb-4">
+                        I build robust, interactive features using modern **JavaScript (ES6+)**, focusing on performance and clean, modular code. This allows me to develop seamless user experiences for high-traffic applications.
+                    </p>
+                    <p class="mb-4">
+                        While my focus is the browser, I utilize **Node.js** for essential tooling, automation, and basic server-side logic when needed for full-stack prototyping or development workflow enhancements. My approach is disciplined, ensuring all solutions are accessible, high-performing, and built for future scalability.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 3. Projects Section - Scroll Reveal Target -->
+        <section id="projects" class="py-24 border-t border-gray-200 dark:border-gray-700 scroll-reveal initial-hidden">
+            <div class="text-center mb-16">
+                <h3 class="text-2xl font-bold text-dark-text dark:text-white mb-2 fade-target initial-hidden" data-delay="0">My Recent Projects</h3>
+                <p class="text-accent text-sm fade-target initial-hidden" data-delay="100">A showcase of my front-end and application development work.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto">
+
+                <!-- Project Card 1: CBT Based Test - NO IMAGE -->
+                <div class="bg-secondary-light dark:bg-gray-800 rounded-xl shadow-2xl overflow-hidden group border border-gray-200 dark:border-gray-700 transition duration-300 hover:border-accent fade-target initial-hidden" data-delay="200">
+                    <!-- Clean Colored Header Bar -->
+                    <div class="h-20 bg-accent/20 dark:bg-accent/30 flex items-center justify-center">
+                        <span class="text-accent text-3xl font-extrabold">&#x22D9;</span> <!-- Simple test/math-related symbol -->
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-2xl font-semibold text-dark-text dark:text-white mb-2 group-hover:text-accent transition duration-300">CBT Based Test</h4>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4 text-sm">
+                            A self-contained Computer-Based Test application with real-time scoring, timer functionality, and randomized question display.
+                        </p>
+                        <!-- Badge color updated to Teal accent -->
+                        <span class="inline-block bg-accent/20 text-accent text-xs font-medium px-2.5 py-0.5 rounded-full">HTML, CSS, and JavaScript</span>
+                        <div class="mt-4 flex space-x-4">
+                            <a href="https://richardfestus01.github.io/Computer-based-test/" class="text-sm text-accent font-medium hover:underline">View Live Demo &rarr;</a>
+                            <a href="https://richardfestus01.github.io/Computer-based-test/" class="text-sm text-gray-500 dark:text-gray-400 hover:text-accent transition duration-200">View Code (GitHub)</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 2: Text to Speech App - NO IMAGE -->
+                <div class="bg-secondary-light dark:bg-gray-800 rounded-xl shadow-2xl overflow-hidden group border border-gray-200 dark:border-gray-700 transition duration-300 hover:border-accent fade-target initial-hidden" data-delay="300">
+                    <!-- Clean Colored Header Bar -->
+                    <div class="h-20 bg-accent/20 dark:bg-accent/30 flex items-center justify-center">
+                        <span class="text-accent text-3xl font-extrabold">&#x266B;</span> <!-- Musical note symbol -->
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-2xl font-semibold text-dark-text dark:text-white mb-2 group-hover:text-accent transition duration-300">Text to Speech App</h4>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4 text-sm">
+                            An accessible application leveraging the Web Speech API to convert typed input into spoken audio, featuring voice selection and pitch/rate controls.
+                        </p>
+                        <!-- Badge color updated to Teal accent -->
+                        <span class="inline-block bg-accent/20 text-accent text-xs font-medium px-2.5 py-0.5 rounded-full">HTML, CSS, and JavaScript</span>
+                        <div class="mt-4 flex space-x-4">
+                            <a href="https://richardfestus01.github.io/Text-to-speech/" class="text-sm text-accent font-medium hover:underline">View Live Demo &rarr;</a>
+                            <a href="https://richardfestus01.github.io/Text-to-speech/" class="text-sm text-gray-500 dark:text-gray-400 hover:text-accent transition duration-200">View Code (GitHub)</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 3: Image Slider - NO IMAGE -->
+                <div class="bg-secondary-light dark:bg-gray-800 rounded-xl shadow-2xl overflow-hidden group border border-gray-200 dark:border-gray-700 transition duration-300 hover:border-accent fade-target initial-hidden" data-delay="400">
+                    <!-- Clean Colored Header Bar -->
+                    <div class="h-20 bg-accent/20 dark:bg-accent/30 flex items-center justify-center">
+                        <span class="text-accent text-3xl font-extrabold">&#x2194;</span> <!-- Left-right arrow symbol -->
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-2xl font-semibold text-dark-text dark:text-white mb-2 group-hover:text-accent transition duration-300">Image Slider</h4>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4 text-sm">
+                            A dynamic and responsive image carousel featuring smooth transitions, autoplay functionality, and accessible navigation controls using pure DOM manipulation.
+                        </p>
+                        <!-- Badge color updated to Teal accent -->
+                        <span class="inline-block bg-accent/20 text-accent text-xs font-medium px-2.5 py-0.5 rounded-full">HTML, CSS, and JavaScript</span>
+                        <div class="mt-4 flex space-x-4">
+                            <a href="https://richardfestus01.github.io/image-slider-carousel/" class="text-sm text-accent font-medium hover:underline">View Live Demo &rarr;</a>
+                            <a href="https://richardfestus01.github.io/image-slider-carousel/" class="text-sm text-gray-500 dark:text-gray-400 hover:text-accent transition duration-200">View Code (GitHub)</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 4: Static Food Delivery Website - NO IMAGE -->
+                <div class="bg-secondary-light dark:bg-gray-800 rounded-xl shadow-2xl overflow-hidden group border border-gray-200 dark:border-gray-700 transition duration-300 hover:border-accent fade-target initial-hidden" data-delay="500">
+                    <!-- Clean Colored Header Bar -->
+                    <div class="h-20 bg-accent/20 dark:bg-accent/30 flex items-center justify-center">
+                        <span class="text-accent text-3xl font-extrabold">&#x2302;</span> <!-- House/Home symbol -->
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-2xl font-semibold text-dark-text dark:text-white mb-2 group-hover:text-accent transition duration-300">Simple todo list</h4>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4 text-sm"> A simple todo list/showcase built entirely with semantic HTML and utility-first Tailwind CSS.
+                        </p>
+                        <!-- Badge color updated to Teal accent -->
+                        <span class="inline-block bg-accent/20 text-accent text-xs font-medium px-2.5 py-0.5 rounded-full">HTML, CSS, and JavaScript</span>
+                        <div class="mt-4 flex space-x-4">
+                            <a href="https://richardfestus01.github.io/simpletodolist/" class="text-sm text-accent font-medium hover:underline">View Live Demo &rarr;</a>
+                            <a href="https://richardfestus01.github.io/simpletodolist/" class="text-sm text-gray-500 dark:text-gray-400 hover:text-accent transition duration-200">View Code (GitHub)</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 4. Contact Section - Scroll Reveal Target -->
+        <section id="contact" class="py-24 border-t border-gray-200 dark:border-gray-700 scroll-reveal initial-hidden">
+            <div class="text-center mb-16">
+                <h3 class="text-2xl font-bold text-dark-text dark:text-white mb-2 fade-target initial-hidden" data-delay="0">Let's Create Something Remarkable</h3>
+                <p class="text-accent text-sm fade-target initial-hidden" data-delay="100">Send a message and let's discuss your vision.</p>
+            </div>
+
+            <!-- New Content: Direct email CTA (optimized for dark mode) -->
+            <div class="max-w-xl mx-auto bg-secondary-light dark:bg-gray-800 p-8 rounded-xl shadow-2xl text-center fade-target initial-hidden" data-delay="200">
+                <p class="text-xl text-gray-700 dark:text-gray-300 mb-6 font-medium">
+                    Wanna create a project? Reach out to me directly via email.
+                </p>
+                <!-- Button color updated to Teal and hover state changed -->
+                <a href="mailto:grichardemurald@gmail.com"
+                   class="inline-block px-8 py-3 bg-accent text-white font-bold rounded-lg shadow-xl shadow-teal-400/40 hover:bg-teal-700 transition duration-300 transform hover:scale-105 text-lg">
+                    grichardemurald@gmail.com
+                </a>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-4">
+                    Ready to start the conversation about your project.
+                </p>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 dark:bg-slate-950 py-12 border-t border-gray-200 dark:border-gray-800">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <a href="#" class="text-xl font-extrabold tracking-wider text-accent block mb-4 transition duration-300 hover:scale-105 hover:opacity-80">Emuemukoro Festus</a>
+
+            <p class="text-gray-600 dark:text-gray-400 mb-6">Frontend focused. User experience driven.</p>
+
+            <p class="text-sm text-gray-500 dark:text-gray-500 mt-6">&copy; 2024 Emuemukoro Festus. Engineering elegance for the digital canvas.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Interactivity and Scroll Animations -->
+    <script>
+        // Set up references
+        const html = document.documentElement;
+        const toggleButton = document.getElementById('dark-mode-toggle');
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+
+        /**
+         * Toggles the dark mode class and saves the preference.
+         * @param {boolean} isDark - true to set dark mode, false for light.
+         */
+        function setDarkMode(isDark) {
+            if (isDark) {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                sunIcon.classList.remove('hidden');
+                moonIcon.classList.add('hidden');
+            } else {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+            }
+        }
+
+        // 1. Initial Load: Check saved preference or system preference
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+            setDarkMode(true);
+        } else {
+            setDarkMode(false);
+        }
+
+        // 2. Dark Mode Toggle Listener
+        toggleButton.addEventListener('click', () => {
+            const isDark = html.classList.contains('dark');
+            setDarkMode(!isDark);
+        });
+
+        // 3. Mobile Menu Toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // 4. Smooth Scrolling and Closing Mobile Menu
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Close mobile menu if open
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+
+        // 5. Intersection Observer for Scroll Animations
+
+        const scrollRevealTargets = document.querySelectorAll('.scroll-reveal, .fade-target');
+
+        const observerOptions = {
+            root: null, // relative to the viewport
+            rootMargin: '0px',
+            threshold: 0.1 // Trigger when 10% of element is visible
+        };
+
+        const observerCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = entry.target;
+
+                    // 1. Initial Reveal (Fade-in-up)
+                    target.classList.remove('initial-hidden');
+                    const delay = target.getAttribute('data-delay') || 0;
+                    target.style.animationDelay = `${delay}ms`;
+                    target.classList.add('animate-fade-in-up');
+
+                    // 2. Start Repeating Animation (Breathe) after initial reveal finishes
+                    // This checks if the element is an inner 'card' or item before adding the looping effect.
+                    if (target.classList.contains('fade-target')) {
+                        // Wait for initial reveal animation (0.8s) + a small buffer
+                        setTimeout(() => {
+                            target.classList.add('animate-breathe');
+                        }, 1000 + parseInt(delay, 10));
+                    }
+
+                    // Stop observing once the animation is triggered
+                    observer.unobserve(target);
+                }
+            });
+        };
+
+        // Create the observer instance
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+        // Start observing each target element
+        scrollRevealTargets.forEach(target => {
+            observer.observe(target);
+        });
+    </script>
+
+</body>
+</html>
